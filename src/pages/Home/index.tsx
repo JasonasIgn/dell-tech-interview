@@ -1,36 +1,35 @@
-import logo from '../../logo.svg';
-import './style.css';
-import { Link } from 'react-router-dom';
+import { Header } from "components/Header/Header";
+import { Route, Switch } from "react-router-dom";
+import { appRoutes } from "config";
+import { UsersPage } from "pages/Users";
+import { NewUserPage } from "pages/NewUser";
+import { useOrderedUsers, useUsers } from "./hooks";
+import { useState } from "react";
+import { UsersSortParams } from "./types";
 
-export function HomePage() {
+export const HomePage = () => {
+  const [sortParams] = useState<UsersSortParams>({
+    type: "name",
+    order: "desc",
+  });
+  const { users, setUsers } = useUsers();
+  const orderedUsers = useOrderedUsers(users, sortParams);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
 
-      <div className="App-line"></div>
-      
-      <main className="App-main">
-        <p>
-          Page 1
-        </p>
-
-        <Link to="/page2" className="App-link">
-          Next Page
-        </Link>
-      </main>
+      <Switch>
+        <Route
+          path={appRoutes.users}
+          exact
+          render={() => <UsersPage users={orderedUsers} />}
+        />
+        <Route
+          path={appRoutes.newUser}
+          exact
+          render={() => <NewUserPage users={users} setUsers={setUsers} />}
+        />
+      </Switch>
     </div>
   );
-}
+};

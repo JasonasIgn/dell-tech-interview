@@ -1,16 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { HomePage } from './pages/Home';
-import { PageTwo } from './pages/PageTwo';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import { HomePage } from "./pages/Home";
 
 const App = () => (
-  <BrowserRouter>
-    <Switch>
-      <Route path="/" exact component={HomePage} />
-      <Route path="/page2" exact component={PageTwo} />
-    </Switch>
-  </BrowserRouter>
+  <ChakraProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={HomePage} />
+      </Switch>
+    </BrowserRouter>
+  </ChakraProvider>
 );
 
 export default App;
